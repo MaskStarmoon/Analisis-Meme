@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisis Hubungan & Meme</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            margin: 20px;
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        input {
+            padding: 12px;
+            margin: 10px;
+            border: 2px solid #fff;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            transition: 0.3s;
+        }
+
+        input::placeholder {
+            color: #eee;
+        }
+
+        input:focus {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        button {
+            padding: 12px 20px;
+            background: #ff4b7b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background: #e33b6d;
+            transform: scale(1.05);
+        }
+
+        #result {
+            font-size: 20px;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        h3 {
+            color: #fff;
+            margin-top: 20px;
+            font-size: 24px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+      img {
+          max-width: 300px;
+          margin-top: 20px;
+          border-radius: 10px;
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      }
+
+        footer {
+            margin-top: 30px;
+            font-size: 16px;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        footer span {
+            color: #ADD8E6;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        window.onload = function() {
+            alert("Selamat datang di Analisis Hubungan & Meme Generator!");
+        };
+    </script>
+    <h1>Analisis Hubungan & Meme Generator</h1>
+    <input type="text" id="name1" placeholder="Nama Pertama">
+    <input type="text" id="name2" placeholder="Nama Kedua">
+    <button onclick="analyzeRelationship()">Analisis</button>
+    <h2 id="result"></h2>
+    <h3>Meme Random</h3>
+    <img id="meme" alt="Meme akan muncul di sini">
+    <footer>
+        <p>© <span><a href="https://www.facebook.com/100082154359331" target="facebook.com">I M Range</a> & <a href="https://www.facebook.com/100088085177610" target="facebook.com">Hady Zen</a></span></p>
+    </footer>
+    <script>
+        function analyzeRelationship() {
+            const name1 = document.getElementById('name1').value;
+            const name2 = document.getElementById('name2').value;
+            if (!name1 || !name2) {
+                alert('Masukkan kedua nama!');
+                return;
+            }
+            
+            alert(`Selamat datang, ${name1} dan ${name2}!`);
+            
+            const compatibility = Math.floor(Math.random() * 101);
+            const prompt = `Nama pertama: ${name1}, Nama kedua: ${name2}. Seberapa cocok mereka? Jawab dengan analisis singkat.`;
+            
+            axios.get(`https://api-rangestudio.vercel.app/api/gemini?text=${encodeURIComponent(prompt)}`)
+                .then(response => {
+                    const analysis = response.data.answer;
+                    document.getElementById('result').innerText = `Kecocokan: ${compatibility}%\n${analysis}`;
+                    loadMeme();
+                })
+                .catch(error => {
+                    console.error('Error API Gemini:', error);
+                    document.getElementById('result').innerText = 'Terjadi kesalahan saat memproses data.';
+                });
+        }
+
+      function loadMeme() {
+          axios.get('https://raw.githubusercontent.com/HadyZen/hady-zen-api/refs/heads/main/meme.json')
+              .then(response => {
+                  const memes = response.data;
+                  const randomMeme = memes[Math.floor(Math.random() * memes.length)];
+                  document.getElementById('meme').src = randomMeme;
+              })
+              .catch(error => {
+                  console.error('Error mengambil meme:', error);
+              });
+      }
+    </script>
+</body>
+</html>
