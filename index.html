@@ -127,7 +127,7 @@
             alert(`Selamat datang, ${name1} dan ${name2}!`);
             
             const compatibility = Math.floor(Math.random() * 101);
-            const prompt = `Nama pertama: ${name1}, Nama kedua: ${name2}. Seberapa cocok mereka? Jawab dengan analisis singkat.`;
+            const prompt = `Nama pertama: ${name1}, Nama kedua: ${name2}. Hasil Analisis: ${compatibility}%, tidak usah tampilkan hasil analisis nya, Seberapa cocok mereka? Jawab dengan hasil analisis singkat namun unik dan relevan.`;
             
             axios.get(`https://api-rangestudio.vercel.app/api/gemini?text=${encodeURIComponent(prompt)}`)
                 .then(response => {
